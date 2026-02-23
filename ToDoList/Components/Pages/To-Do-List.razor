@@ -1,0 +1,72 @@
+﻿@page "/"
+@page "/to-do-list"
+@rendermode InteractiveServer
+
+@attribute [StreamRendering]
+
+<PageTitle>To-Do-List</PageTitle>
+
+<h1>To-Do-List</h1>
+
+<p>What do you need to do?</p>
+
+<button class="btn btn-primary" @onclick="AddTask" disabled="@IsAddDisabled">Add Task</button>
+
+    <table class="table">
+        <tbody>
+            @foreach (var todo in todos)
+            {
+                <tr>
+                   <td>
+                       <input type="checkbox" @bind="todo.IsDone"/>
+                   </td>
+                   <td>
+                       <input type="text" class="form-control" @bind="todo.Text" @bind:event="oninput"/>
+                   </td>
+                   <td>
+                       <button class="btn btn-danger btn-sm" @onclick="() => RemoveTask(todo)">Remove</button>
+                   </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<div class="input-group mb-3">
+    <div class="input-group-text">
+        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+    </div>
+    <input type="text" class="form-control" @bind="newTaskText" @bind:event="oninput" placeholder="..."/>
+</div>
+
+@code {
+    private List<TodoItem> todos = new();
+
+    private string newTaskText = "";
+
+    private class TodoItem
+    {
+        public bool IsDone { get; set; }
+        public string? Text { get; set; }
+    }
+
+    private void AddTask()
+    {
+        if (string.IsNullOrWhiteSpace(newTaskText)) return;
+        todos.Add(
+            new TodoItem
+            {
+                Text = newTaskText,
+                IsDone = false
+            });
+
+        newTaskText = "";
+    }
+
+    private void RemoveTask(TodoItem todo)
+    {
+        todos.Remove(todo);
+    }
+
+    private bool IsAddDisabled =>
+    string.IsNullOrWhiteSpace(newTaskText);
+}
