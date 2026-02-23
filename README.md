@@ -4,10 +4,8 @@ Eine moderne Task-Management-Anwendung built mit **Blazor** (.NET 10).
 
 ## Features
 
-- ✅ Aufgaben erstellen und verwalten
+- ✅ Aufgaben erstellen
 - ✅ Interaktive Benutzeroberfläche mit Bootstrap
-- ✅ Real-time Rendering mit Blazor
-- ✅ Responsive Design
 
 ## Anforderungen
 
